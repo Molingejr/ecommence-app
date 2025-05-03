@@ -31,7 +31,24 @@ A modern e-commerce mobile application built with React Native, Redux Toolkit, a
 
 ## Screenshots
 
-[Add screenshots here]
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0;">
+  <div style="text-align: center;">
+    <img src="assets/screenshots/Screenshot_20250503-090854.png" alt="Home Screen" style="width: 100%; max-width: 300px; border-radius: 8px;" />
+    <p style="margin-top: 10px; font-weight: 500;">Home Screen with Product Grid</p>
+  </div>
+  <div style="text-align: center;">
+    <img src="assets/screenshots/Screenshot_20250503-090911.jpg" alt="Product Details" style="width: 100%; max-width: 300px; border-radius: 8px;" />
+    <p style="margin-top: 10px; font-weight: 500;">Product Details View</p>
+  </div>
+  <div style="text-align: center;">
+    <img src="assets/screenshots/Screenshot_20250503-090922.jpg" alt="Shopping Cart" style="width: 100%; max-width: 300px; border-radius: 8px;" />
+    <p style="margin-top: 10px; font-weight: 500;">Shopping Cart</p>
+  </div>
+  <div style="text-align: center;">
+    <img src="assets/screenshots/Screenshot_20250503-091302.png" alt="Profile Screen" style="width: 100%; max-width: 300px; border-radius: 8px;" />
+    <p style="margin-top: 10px; font-weight: 500;">User Profile</p>
+  </div>
+</div>
 
 ## Tech Stack
 
@@ -101,7 +118,6 @@ ecommence-app/
 │   └── types.ts          # TypeScript interfaces
 ├── assets/               # Static assets
 ├── .expo/               # Expo configuration
-├── .vscode/            # VS Code settings
 ├── app.json            # Expo app configuration
 ├── expo-env.d.ts       # Expo TypeScript declarations
 ├── package.json        # Project dependencies
