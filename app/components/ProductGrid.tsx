@@ -63,7 +63,17 @@ function ProductCard({ product, width }: ProductCardProps) {
 }
 
 export default function ProductGrid() {
-  const { data: products, isLoading } = useGetProductsQuery();
+  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <FontAwesome name="exclamation-circle" size={48} color="#FF3B30" />
+        <Text style={styles.errorText}>Failed to load products</Text>
+        <Text style={styles.errorSubtext}>Please check your internet connection</Text>
+      </View>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -183,5 +193,25 @@ const styles = StyleSheet.create({
   ratingCount: {
     fontSize: 12,
     color: '#666',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 20,
+  },
+  errorText: {
+    marginTop: 16,
+    fontSize: 18,
+    color: '#FF3B30',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  errorSubtext: {
+    marginTop: 8,
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
   },
 }); 
