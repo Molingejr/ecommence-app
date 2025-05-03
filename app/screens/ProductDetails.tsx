@@ -3,7 +3,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { useGetProductQuery } from '../../store/api';
+import { addToCart } from '../../store/cartSlice';
 
 type RootStackParamList = {
   Home: undefined;
@@ -15,8 +17,16 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export default function ProductDetails() {
   const route = useRoute();
   const navigation = useNavigation<NavigationProp>();
+  const dispatch = useDispatch();
   const { id } = route.params as { id: number };
   const { data: product, isLoading } = useGetProductQuery(id);
+
+  const handleAddToCart = () => {
+    if (product) {
+      dispatch(addToCart(product));
+      navigation.goBack();
+    }
+  };
 
   if (isLoading) {
     return (
@@ -53,7 +63,10 @@ export default function ProductDetails() {
             </Text>
           </View>
         )}
-        <TouchableOpacity style={styles.addToCartButton}>
+        <TouchableOpacity 
+          style={styles.addToCartButton}
+          onPress={handleAddToCart}
+        >
           <Text style={styles.addToCartText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>

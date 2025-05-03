@@ -24,5 +24,5 @@ export const {
   useGetProductsByCategoryQuery 
 } = api;
 
-// Export the API slice
-export { api };
+// Export the API slice as default
+export default api;

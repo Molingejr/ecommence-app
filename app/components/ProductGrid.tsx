@@ -1,8 +1,11 @@
+import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { ActivityIndicator, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { useGetProductsQuery } from '../../store/api';
+import { addToCart } from '../../store/cartSlice';
 import { Product } from '../../store/types';
 
 type RootStackParamList = {
@@ -23,9 +26,15 @@ const itemWidth = (width - 48) / numColumns;
 
 function ProductCard({ product, width }: ProductCardProps) {
   const navigation = useNavigation<NavigationProp>();
+  const dispatch = useDispatch();
 
   const handlePress = () => {
     navigation.navigate('ProductDetails', { id: product.id });
+  };
+
+  const handleAddToCart = (e: any) => {
+    e.stopPropagation();
+    dispatch(addToCart(product));
   };
 
   return (
@@ -41,11 +50,9 @@ function ProductCard({ product, width }: ProductCardProps) {
         <Text style={styles.productPrice}>${product.price}</Text>
         <TouchableOpacity 
           style={styles.addToCartButton}
-          onPress={(e) => {
-            e.stopPropagation();
-            // TODO: Add to cart functionality
-          }}
+          onPress={handleAddToCart}
         >
+          <FontAwesome name="cart-plus" size={16} color="#fff" />
           <Text style={styles.addToCartText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
@@ -152,11 +159,14 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 4,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   addToCartText: {
     color: '#fff',
     fontSize: 14,
     fontWeight: '600',
+    marginLeft: 8,
   },
 }); 

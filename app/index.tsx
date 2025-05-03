@@ -1,6 +1,9 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCart, selectCartItemCount } from '../store/cartSlice';
 import CartScreen from './screens/cart';
 import HomeScreen from './screens/home';
 import ProductDetailsScreen from './screens/ProductDetails';
@@ -26,7 +29,10 @@ function HomeStack() {
       <Stack.Screen 
         name="Home" 
         component={HomeScreen} 
-        options={{ headerShown: false }}
+        options={{ 
+          title: 'Products',
+          headerShown: true 
+        }}
       />
       <Stack.Screen 
         name="ProductDetails" 
@@ -37,6 +43,85 @@ function HomeStack() {
         }}
       />
     </Stack.Navigator>
+  );
+}
+
+function CartStack() {
+  const dispatch = useDispatch();
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
+
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#007AFF',
+        headerTitleStyle: {
+          fontWeight: '600',
+        },
+      }}
+    >
+      <Stack.Screen 
+        name="Cart" 
+        component={CartScreen}
+        options={{
+          title: 'Your Cart',
+          headerRight: () => (
+            <TouchableOpacity 
+              style={styles.clearButton}
+              onPress={handleClearCart}
+            >
+              <FontAwesome name="trash" size={16} color="#FF3B30" />
+              <Text style={styles.clearButtonText}>Clear</Text>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function ProfileStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#007AFF',
+        headerTitleStyle: {
+          fontWeight: '600',
+        },
+      }}
+    >
+      <Stack.Screen 
+        name="Profile" 
+        component={ProfileScreen}
+        options={{
+          title: 'Profile',
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function CartIconWithBadge({ color, size }: { color: string; size: number }) {
+  const itemCount = useSelector(selectCartItemCount);
+  
+  return (
+    <View>
+      <FontAwesome name="shopping-cart" size={size} color={color} />
+      {itemCount > 0 && (
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{itemCount}</Text>
+        </View>
+      )}
+    </View>
   );
 }
 
@@ -69,19 +154,52 @@ export default function App() {
         }}
       />
       <Tab.Screen 
-        name="Cart"
-        component={CartScreen}
+        name="CartTab"
+        component={CartStack}
         options={{
-          tabBarIcon: ({ color, size }) => <FontAwesome name="shopping-cart" size={size} color={color} />,
+          title: 'Cart',
+          tabBarIcon: ({ color, size }) => <CartIconWithBadge color={color} size={size} />,
         }}
       />
       <Tab.Screen 
-        name="Profile"
-        component={ProfileScreen}
+        name="ProfileTab"
+        component={ProfileStack}
         options={{
+          title: 'Profile',
           tabBarIcon: ({ color, size }) => <FontAwesome name="user" size={size} color={color} />,
         }}
       />
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  badge: {
+    position: 'absolute',
+    right: -8,
+    top: -8,
+    backgroundColor: '#FF3B30',
+    borderRadius: 10,
+    minWidth: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 4,
+  },
+  badgeText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  clearButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 16,
+  },
+  clearButtonText: {
+    marginLeft: 4,
+    fontSize: 14,
+    color: '#FF3B30',
+    fontWeight: '500',
+  },
+});
