@@ -1,7 +1,16 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { ActivityIndicator, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useGetProductsQuery } from '../../store/api';
 import { Product } from '../../store/types';
+
+type RootStackParamList = {
+  Home: undefined;
+  ProductDetails: { id: number };
+};
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface ProductCardProps {
   product: Product;
@@ -13,19 +22,34 @@ const numColumns = 2;
 const itemWidth = (width - 48) / numColumns;
 
 function ProductCard({ product, width }: ProductCardProps) {
+  const navigation = useNavigation<NavigationProp>();
+
+  const handlePress = () => {
+    navigation.navigate('ProductDetails', { id: product.id });
+  };
+
   return (
-    <View style={[styles.itemContainer, { width }]}>
+    <TouchableOpacity 
+      style={[styles.itemContainer, { width }]}
+      onPress={handlePress}
+    >
       <Image source={{ uri: product.image }} style={[styles.productImage, { height: width }]} />
       <View style={styles.productInfo}>
         <Text style={styles.productTitle} numberOfLines={2}>
           {product.title}
         </Text>
         <Text style={styles.productPrice}>${product.price}</Text>
-        <TouchableOpacity style={styles.addToCartButton}>
+        <TouchableOpacity 
+          style={styles.addToCartButton}
+          onPress={(e) => {
+            e.stopPropagation();
+            // TODO: Add to cart functionality
+          }}
+        >
           <Text style={styles.addToCartText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
