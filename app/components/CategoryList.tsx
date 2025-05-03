@@ -1,5 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCategory, setCategory } from '../../store/categorySlice';
 
 const categories = [
   "electronics",
@@ -9,6 +11,17 @@ const categories = [
 ];
 
 export default function CategoryList() {
+  const dispatch = useDispatch();
+  const selectedCategory = useSelector(selectCategory);
+
+  const handleCategoryPress = (category: string) => {
+    if (selectedCategory === category) {
+      dispatch(setCategory(null));
+    } else {
+      dispatch(setCategory(category));
+    }
+  };
+
   return (
     <View style={styles.categoriesContainer}>
       <Text style={styles.sectionTitle}>Categories</Text>
@@ -17,12 +30,31 @@ export default function CategoryList() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.categoriesList}
       >
+        <TouchableOpacity 
+          style={[
+            styles.categoryItem,
+            !selectedCategory && styles.selectedCategory
+          ]}
+          onPress={() => dispatch(setCategory(null))}
+        >
+          <Text style={[
+            styles.categoryText,
+            !selectedCategory && styles.selectedCategoryText
+          ]}>All</Text>
+        </TouchableOpacity>
         {categories.map((category, index) => (
           <TouchableOpacity 
             key={index} 
-            style={styles.categoryItem}
+            style={[
+              styles.categoryItem,
+              selectedCategory === category && styles.selectedCategory
+            ]}
+            onPress={() => handleCategoryPress(category)}
           >
-            <Text style={styles.categoryText}>{category}</Text>
+            <Text style={[
+              styles.categoryText,
+              selectedCategory === category && styles.selectedCategoryText
+            ]}>{category}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -49,9 +81,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginRight: 8,
   },
+  selectedCategory: {
+    backgroundColor: '#007AFF',
+  },
   categoryText: {
     fontSize: 14,
     color: '#333',
     textTransform: 'capitalize',
+  },
+  selectedCategoryText: {
+    color: '#fff',
   },
 }); 

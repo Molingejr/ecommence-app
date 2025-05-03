@@ -3,9 +3,10 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { ActivityIndicator, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGetProductsQuery } from '../../store/api';
 import { addToCart } from '../../store/cartSlice';
+import { selectCategory } from '../../store/categorySlice';
 import { Product } from '../../store/types';
 import StarRating from './StarRating';
 
@@ -19,6 +20,10 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 interface ProductCardProps {
   product: Product;
   width: number;
+}
+
+interface ProductGridProps {
+  selectedCategory: string | null;
 }
 
 const { width } = Dimensions.get('window');
@@ -64,6 +69,11 @@ function ProductCard({ product, width }: ProductCardProps) {
 
 export default function ProductGrid() {
   const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  const selectedCategory = useSelector(selectCategory);
+
+  const filteredProducts = selectedCategory
+    ? products?.filter(product => product.category === selectedCategory)
+    : products;
 
   if (error) {
     return (
@@ -86,9 +96,11 @@ export default function ProductGrid() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>Products</Text>
+      <Text style={styles.sectionTitle}>
+        {selectedCategory ? `${selectedCategory} Products` : 'All Products'}
+      </Text>
       <View style={styles.grid}>
-        {products?.map((item, index) => (
+        {filteredProducts?.map((item, index) => (
           <View 
             key={item.id} 
             style={[

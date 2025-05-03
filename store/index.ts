@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import api from './api';
 import cartReducer, { initializeCart } from './cartSlice';
+import categoryReducer from './categorySlice';
 
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
     cart: cartReducer,
+    category: categoryReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
