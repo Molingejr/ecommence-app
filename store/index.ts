@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import api from './api';
-import cartReducer from './cartSlice';
+import cartReducer, { initializeCart } from './cartSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +10,9 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
 });
+
+// Initialize cart from AsyncStorage
+store.dispatch(initializeCart());
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
