@@ -1,35 +1,19 @@
 import React from 'react';
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
-import Carousel from 'react-native-reanimated-carousel';
-
-const { width: screenWidth } = Dimensions.get('window');
-
-const foodImages = [
-  'https://picsum.photos/id/292/800/400',
-  'https://picsum.photos/id/312/800/400',
-  'https://picsum.photos/id/488/800/400',
-  'https://picsum.photos/id/490/800/400',
-  'https://picsum.photos/id/1080/800/400',
-];
+import { ScrollView, StyleSheet } from 'react-native';
+import { useGetProductsQuery } from '../../store/api';
+import CategoryList from '../components/CategoryList';
+import ImageCarousel from '../components/ImageCarousel';
+import ProductGrid from '../components/ProductGrid';
 
 export default function HomeScreen() {
+  const { data: products, isLoading } = useGetProductsQuery();
+
   return (
-    <View style={styles.container}>
-      <Carousel
-        loop
-        width={screenWidth}
-        height={250}
-        autoPlay={true}
-        data={foodImages}
-        scrollAnimationDuration={1000}
-        renderItem={({ item }) => (
-          <View style={styles.slide}>
-            <Image source={{ uri: item }} style={styles.image} />
-          </View>
-        )}
-      />
-      <Text style={styles.title}>Welcome to Our Restaurant</Text>
-    </View>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <ImageCarousel />
+      <CategoryList />
+      <ProductGrid />
+    </ScrollView>
   );
 }
 
@@ -37,21 +21,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-  slide: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 8,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 20,
   },
 });
