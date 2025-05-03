@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useGetProductsQuery } from '../../store/api';
 import { addToCart } from '../../store/cartSlice';
 import { Product } from '../../store/types';
+import StarRating from './StarRating';
 
 type RootStackParamList = {
   Home: undefined;
@@ -47,6 +48,7 @@ function ProductCard({ product, width }: ProductCardProps) {
         <Text style={styles.productTitle} numberOfLines={2}>
           {product.title}
         </Text>
+        {product.rating && <StarRating rating={product.rating} />}
         <Text style={styles.productPrice}>${product.price}</Text>
         <TouchableOpacity 
           style={styles.addToCartButton}
@@ -168,5 +170,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     marginLeft: 8,
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  starsContainer: {
+    flexDirection: 'row',
+    marginRight: 4,
+  },
+  ratingCount: {
+    fontSize: 12,
+    color: '#666',
   },
 }); 

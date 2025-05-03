@@ -6,6 +6,7 @@ import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacit
 import { useDispatch } from 'react-redux';
 import { useGetProductQuery } from '../../store/api';
 import { addToCart } from '../../store/cartSlice';
+import StarRating from '../components/StarRating';
 
 type RootStackParamList = {
   Home: undefined;
@@ -55,20 +56,15 @@ export default function ProductDetails() {
         {product.description && (
           <Text style={styles.description}>{product.description}</Text>
         )}
-        {product.rating && (
-          <View style={styles.ratingContainer}>
-            <FontAwesome name="star" size={16} color="#FFD700" />
-            <Text style={styles.ratingText}>
-              {product.rating.rate} ({product.rating.count} reviews)
-            </Text>
-          </View>
-        )}
-        <TouchableOpacity 
-          style={styles.addToCartButton}
-          onPress={handleAddToCart}
-        >
-          <Text style={styles.addToCartText}>Add to Cart</Text>
-        </TouchableOpacity>
+        {product.rating && <StarRating rating={product.rating} size={16} />}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity 
+            style={styles.addToCartButton}
+            onPress={handleAddToCart}
+          >
+            <Text style={styles.addToCartText}>Add to Cart</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );
@@ -111,6 +107,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+    paddingBottom: 32,
   },
   title: {
     fontSize: 24,
@@ -150,5 +147,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  buttonContainer: {
+    marginTop: 16,
   },
 }); 
