@@ -1,50 +1,137 @@
-# Welcome to your Expo app 👋
+# E-Commerce Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern e-commerce mobile application built with React Native, Redux Toolkit, and TypeScript.
 
-## Get started
+## Features
 
-1. Install dependencies
+- 🛍️ **Product Browsing**
+  - Grid view of products
+  - Category filtering
+  - Product details view
+  - Star ratings display
 
-   ```bash
-   npm install
-   ```
+- 🛒 **Shopping Cart**
+  - Add/remove products
+  - Quantity management
+  - Persistent cart storage
+  - Total price calculation
 
-2. Start the app
+- 🏷️ **Categories**
+  - Horizontal scrolling category list
+  - Quick category filtering
+  - "All" category option
+  - Visual category selection feedback
 
-   ```bash
-   npx expo start
-   ```
+- 🖼️ **UI/UX**
+  - Modern and clean design
+  - Responsive layout
+  - Loading states
+  - Error handling
+  - Smooth animations
 
-In the output, you'll find options to open the app in a
+## Screenshots
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+[Add screenshots here]
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Tech Stack
 
-## Get a fresh project
+- React Native
+- TypeScript
+- Redux Toolkit
+- React Navigation
+- AsyncStorage
+- Expo Vector Icons
 
-When you're ready, run:
+## Prerequisites
 
+- Node.js (v14 or higher)
+- npm or yarn
+- Expo CLI
+- iOS Simulator or Android Emulator
+
+## Installation
+
+1. Clone the repository:
 ```bash
-npm run reset-project
+git clone [repository-url]
+cd ecommence-app
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
 
-## Learn more
+3. Start the development server:
+```bash
+npm start
+# or
+yarn start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+4. Run on your preferred platform:
+- Press `i` for iOS simulator
+- Press `a` for Android emulator
+- Scan QR code with Expo Go app on your physical device
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Project Structure
 
-## Join the community
+```
+ecommence-app/
+├── app/                    # Main application code
+│   ├── components/        # Reusable UI components
+│   │   ├── CategoryList.tsx
+│   │   ├── ImageCarousel.tsx
+│   │   ├── ProductCard.tsx
+│   │   ├── ProductGrid.tsx
+│   │   └── StarRating.tsx
+│   ├── screens/           # App screens
+│   │   ├── home.tsx
+│   │   └── product-details.tsx
+│   ├── _layout.tsx        # Root layout configuration
+│   └── index.tsx          # Entry point
+├── store/                 # State management
+│   ├── api.ts            # API configuration and endpoints
+│   ├── cartSlice.ts      # Shopping cart state management
+│   ├── categorySlice.ts  # Category filtering state
+│   ├── index.ts          # Redux store configuration
+│   ├── storage.ts        # AsyncStorage utilities
+│   └── types.ts          # TypeScript interfaces
+├── assets/               # Static assets
+├── .expo/               # Expo configuration
+├── .vscode/            # VS Code settings
+├── app.json            # Expo app configuration
+├── expo-env.d.ts       # Expo TypeScript declarations
+├── package.json        # Project dependencies
+├── tsconfig.json       # TypeScript configuration
+└── eslint.config.js    # ESLint configuration
+```
 
-Join our community of developers creating universal apps.
+## State Management
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+The app uses Redux Toolkit for state management with the following slices:
+
+- **Cart Slice**: Manages shopping cart state
+  - Add/remove items
+  - Update quantities
+  - Calculate totals
+  - Persist cart data
+
+- **Category Slice**: Manages product filtering
+  - Category selection
+  - Filter state
+  - Clear filters
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
